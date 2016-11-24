@@ -60,8 +60,9 @@ var port   = process.env.PORT || 3000;
 var router = express.Router();
 
 // On autoriste suelement l'access API au login, attention, ne pas mettre le fichier Js, par exemple loginRoute.js
-require('./app/routes/loginRoute')(router, connection);
-require('./app/routes/signRoute')(router, connection);
+require('./app/routes/oublieRoute')(router, connection);
+//require('./app/routes/loginRoute')(router, connection);
+//require('./app/routes/signRoute')(router, connection);
 
 // Si tu n'utilises pas 0auth, Alors Enleve cette partie
 router.use(function(req, res, next) {
@@ -87,8 +88,8 @@ router.use(function(req, res, next) {
         });
     }
 });
-require('./app/routes/commandesRoute')(router, connection);
-require('./app/routes/accountsRoute')(router, connection);
+//require('./app/routes/commandesRoute')(router, connection);
+//require('./app/routes/accountsRoute')(router, connection);
 
 // Ici sont les Routes si jamais il ont besoin d'etre authentifié pour etre utilisé
 // si jamais tu veux creer une route, fait un require

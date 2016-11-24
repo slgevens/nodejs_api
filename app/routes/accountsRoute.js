@@ -8,7 +8,7 @@ module.exports = function(router, connection) {
             // ?? = clé, ? = valeur
             // on déclare séparement les clé/valeur de la query pour question securité et eviter les injections SQL
             var query        = "SELECT * FROM ?? WHERE ?? = ? ";
-            var table        = ['api_node_js.login', 'is_archived','0'];
+            var table        = ['photo_expresso.login', 'is_archived','0'];
 	    
 	    if (req.params.id){
 		query += "AND ?? = ?";
@@ -29,7 +29,7 @@ module.exports = function(router, connection) {
         })
 	.post(function(req, res) {
 	    var query = "INSERT INTO ??  (??, ??, ??) VALUES (?, ?, false)";
-	    var table = ['api_node_js.login', 'username', 'password', 'is_archived', req.body.username, req.body.password];
+	    var table = ['photo_expresso.login', 'username', 'password', 'is_archived', req.body.username, req.body.password];
 	    query = mysql.format(query, table);
 	    connection.query(query, function(err) {
 		if (err) {

@@ -12,7 +12,7 @@ module.exports = function(router, connection) {
     router.route('/login/')
 	.post(function(req, res){
 	    var query_1 = "SELECT * FROM ?? WHERE ?? = ? AND ?? = ?";
-	    var table_1 = ['api_node_js.login', 'username', req.body.username, 'password', req.body.password];
+	    var table_1 = ['photo_expresso.login', 'username', req.body.username, 'password', req.body.password];
 
 	    query_1 = mysql.format(query_1, table_1);
 	    connection.query(query_1, function(err, result_1){
@@ -26,7 +26,7 @@ module.exports = function(router, connection) {
 		    else {
 			console.log(req.body.password, result_1[0].password);
 			var query_2 = "SELECT * FROM ?? WHERE ?? = ?";
-			var table_2 = ['api_node_js.view_users', 'ID_USER', result_1[0].id];
+			var table_2 = ['photo_expresso.view_users', 'ID_USER', result_1[0].id];
 			query_2 = mysql.format(query_2, table_2);
 			connection.query(query_2, function(err, result_2){
 			    if  (err)
@@ -46,7 +46,7 @@ module.exports = function(router, connection) {
     router.route('/delete/:id')
         .put(function(req, res){
 	    var query = "UPDATE ?? SET ?? = ? WHERE ?? = ?"
-	    var table = ['api_node_js.login', 'is_archived', '1', 'id', req.params.id];
+	    var table = ['photo_expresso.login', 'is_archived', '1', 'id', req.params.id];
 	    query = mysql.format(query, table);
 	    connection.query(query, function(err) {
 		if (err) {
