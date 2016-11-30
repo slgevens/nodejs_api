@@ -12,10 +12,11 @@ module.exports = function(router, connection) {
 		    res.status(400).send(err);
 		}
 		else {
-		    var query_2 = "INSERT INTO ?? (??, ??, ??, ??, ??, ??, ??, ??, ??) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-		    var table_2 = ['photo_expresso.users', 'FIRSTNAME', 'LASTNAME', 'ADDR_L1', 'ADDR_L2', 'COMPLEMENT', 'POSTAL_CODE', 'MAIL', 'CITY', 'ID_USER',
-				   req.body.firstname, req.body.lastname, req.body.addr_l1, req.body.addr_l2, req.body.complement,
-				   req.body.postal_code, req.body.email, req.body.city, result_1.insertId];
+		    var query_2 = "INSERT INTO ?? (??, ??, ??, ??, ??, ??, ??, ??) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+		    var table_2 = ['photo_expresso.users', 'FIRSTNAME', 'LASTNAME', 'ADDR_L1',
+				   'ADDR_L2', 'COMPLEMENT', 'POSTAL_CODE', 'CITY', 'ID_USER',
+				   req.body.firstname, req.body.lastname, req.body.addr_l1, req.body.addr_l2,
+				   req.body.complement, req.body.postal_code, req.body.city, result_1.insertId];
 		    
 		    query_2 = mysql.format(query_2, table_2);
 		    connection.query(query_2, function(err){
