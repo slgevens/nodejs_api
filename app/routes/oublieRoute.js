@@ -1,4 +1,5 @@
 var mysql = require('mysql');
+var crypto = require('crypto');
 
 module.exports = function(router, connection) {
     router.route('/oublie')
