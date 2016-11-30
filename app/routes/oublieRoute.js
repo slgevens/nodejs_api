@@ -18,7 +18,6 @@ module.exports = function(router, connection) {
 		};
 		return value.join('');
 	    }
-
 	    // check if the mail exists
 	    var query = "SELECT ?? FROM ?? WHERE ?? = ? ";
 	    var table = ['ID_USER', 'photo_expresso.users', 'MAIL', req.body.mail ];
@@ -36,13 +35,16 @@ module.exports = function(router, connection) {
 			var table_update = ['photo_expresso.login', 'PASSWORD', randompass(10), 'TOKEN', new_token, 'TOKEN_VALIDITY', new_token, 'ID_LOGIN', result[0] ];
 			update_passsword = mysql.format(update_passsword, table_update);
 			connection.query(update_passsword, function(errupdate, resultupdate){
-			    if(errupdate)
+			    if(errupdate){
 				res.status(400);
-			    else
-				res.status(200); 
+			    }
+			    else {
+				res.status(200);
+			    }
 			});
 			res.status(200);
-		    } else {
+		    }
+		    else {
 			res.status(400);
 		    }
 		    res.status(200); 
