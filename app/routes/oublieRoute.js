@@ -20,7 +20,7 @@ module.exports = function(router, connection) {
 	    }
 	    // check if the mail exists
 	    var query = "SELECT ?? FROM ?? WHERE ?? = ? ";
-	    var table = ['ID_USER', 'photo_expresso.users', 'MAIL', req.body.mail ];
+	    var table = ['ID_USER', 'photo_expresso.login', 'MAIL', req.body.mail ];
 	    
 	    query = mysql.format(query, table);
 	    connection.query(query, function(err, result){
