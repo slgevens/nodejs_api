@@ -63,6 +63,7 @@ var router = express.Router();
 require('./app/routes/oublieRoute')(router, connection);
 require('./app/routes/inscriptionRoute')(router, connection);
 //require('./app/routes/loginRoute')(router, connection);
+require('./app/routes/papierRoute')(router, connection);
 
 
 // Si tu n'utilises pas 0auth, Alors Enleve cette partie
