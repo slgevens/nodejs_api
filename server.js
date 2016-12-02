@@ -66,6 +66,7 @@ require('./app/routes/inscriptionRoute')(router, connection);
 require('./app/routes/papierRoute')(router, connection);
 require('./app/routes/masqueRoute')(router, connection);
 require('./app/routes/promoRoute')(router, connection);
+require('./app/routes/fraisRoute')(router, connection);
 
 
 // Si tu n'utilises pas 0auth, Alors Enleve cette partie
