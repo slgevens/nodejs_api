@@ -62,11 +62,14 @@ var router = express.Router();
 // On autoriste suelement l'access API au login, attention, ne pas mettre le fichier Js, par exemple loginRoute.js
 require('./app/routes/oublieRoute')(router, connection);
 require('./app/routes/inscriptionRoute')(router, connection);
-//require('./app/routes/loginRoute')(router, connection);
+<<<<<<< HEAD
 require('./app/routes/papierRoute')(router, connection);
 require('./app/routes/masqueRoute')(router, connection);
 require('./app/routes/promoRoute')(router, connection);
 require('./app/routes/fraisRoute')(router, connection);
+=======
+require('./app/routes/connexionRoute')(router, connection);
+>>>>>>> connexion
 
 
 // Si tu n'utilises pas 0auth, Alors Enleve cette partie
