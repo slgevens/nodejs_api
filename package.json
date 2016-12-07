@@ -25,6 +25,7 @@
     "fs": "0.0.1-security",
     "https": "^1.0.0",
     "jsonwebtoken": "^7.1.9",
-    "mysql": "^2.11.1"
+    "mysql": "^2.11.1",
+    "password-hash": "^1.2.2"
   }
 }
