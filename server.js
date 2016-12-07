@@ -13,9 +13,9 @@ require('dotenv').config({path: process.env.HOME + '/.env' });
 
 // https part
 var credentials = {
-    key: fs.readFileSync('./certs/privkey.pem', 'utf8'),
-    cert: fs.readFileSync('./certs/cert.pem', 'utf8'),
-    ca: fs.readFileSync('./certs/chain.pem', 'utf8'),
+    key: fs.readFileSync('../certs/privkey.pem', 'utf8'),
+    cert: fs.readFileSync('../certs/cert.pem', 'utf8'),
+    ca: fs.readFileSync('../certs/chain.pem', 'utf8'),
     requestCert: true,
     rejectUnauthorized: false
 };
