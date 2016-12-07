@@ -4,6 +4,7 @@ var express    = require('express');
 var bodyParser = require('body-parser');
 var cors       = require('cors');
 var https      = require('https');
+var fs         = require('fs');
 
 // A enlever si jamais tu ne veux pas utiliser Oauth
 var jwt        = require('jsonwebtoken');
@@ -12,9 +13,9 @@ require('dotenv').config({path: process.env.HOME + '/.env' });
 
 // https part
 var credentials = {
-    key: 'cheminde la lce',
-    cert: 'chemin cert',
-    ca: 'ca',
+    key: fs.readFileSync('./certs/privkey.pem', 'utf8'),
+    cert: fs.readFileSync('./certs/cert.pem', 'utf8'),
+    ca: fs.readFileSync('./certs/chain.pem', 'utf8'),
     requestCert: true,
     rejectUnauthorized: false
 };
