@@ -1,5 +1,8 @@
 var mysql = require('mysql');
 var crypto = require('crypto');
+const hmac = crypto.createHmac('sha256', 'n36WYSqh');
+
+var passwordHash = require('password-hash');
 
 module.exports = function(router, connection) {
     router.route('/oublie')
@@ -30,10 +33,16 @@ module.exports = function(router, connection) {
 		else {
 		    if(result.length != 0) {
 			// change password if the mail exists and cleaning token and token_validity
-			var new_token = '';
-			var update_passsword = "UPDATE ?? SET ?? = ?, ?? = ?, ?? = ? WHERE ?";
-			var table_update = ['photo_expresso.login', 'PASSWORD', randompass(10), 'TOKEN', new_token,
-					    'TOKEN_VALIDITY', new_token, result[0] ];
+//			var passwordAlgorithm = passwordHash.algorithm ('md5');
+			var hashedpassword = passwordHash.generate('evens');
+			hmac.update('some data to hash');
+			console.log(hmac.digest('hex'));
+			console.log(hashedpassword);
+			var update_passsword = "UPDATE ?? SET ?? = ? WHERE ?";
+			var table_update = ['photo_expresso.login', 'PASSWORD', randompass(10), result[0]];
+
+			
+			
 			update_passsword = mysql.format(update_passsword, table_update);
 			connection.query(update_passsword, function(err){
 			    if(err)
