@@ -27,6 +27,7 @@
     "jsonwebtoken": "^7.1.9",
     "mysql": "^2.11.1",
     "native-password-hash": "^1.1.0",
+    "nodemailer": "^2.7.0",
     "password-hash": "^1.2.2"
   }
 }
