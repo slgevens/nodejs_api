@@ -1,8 +1,6 @@
 var mysql = require('mysql');
 var crypto = require('crypto');
-const hmac = crypto.createHmac('sha256', 'n36WYSqh');
-
-var passwordHash = require('password-hash');
+var pass = require('password-hash');
 
 module.exports = function(router, connection) {
     router.route('/oublie')
@@ -23,7 +21,7 @@ module.exports = function(router, connection) {
 	    }
 	    // check if the mail exists
 	    var query = "SELECT ?? FROM ?? WHERE ?? = ? ";
-	    var table = ['ID_USER', 'photo_expresso.login', 'MAIL', req.body.mail ];
+	    var table = ['ID_USER', 'photo_expresso.login', 'MAIL', req.body.email ];
 	    
 	    query = mysql.format(query, table);
 	    connection.query(query, function(err, result){
@@ -33,16 +31,12 @@ module.exports = function(router, connection) {
 		else {
 		    if(result.length != 0) {
 			// change password if the mail exists and cleaning token and token_validity
-//			var passwordAlgorithm = passwordHash.algorithm ('md5');
-			var hashedpassword = passwordHash.generate('evens');
-			hmac.update('some data to hash');
-			console.log(hmac.digest('hex'));
-			console.log(hashedpassword);
-			var update_passsword = "UPDATE ?? SET ?? = ? WHERE ?";
-			var table_update = ['photo_expresso.login', 'PASSWORD', randompass(10), result[0]];
 
-			
-			
+			var hash = pass.generate(randompass.toString());
+			console.log(hash);
+			var update_passsword = "UPDATE ?? SET ?? = ? WHERE ?";
+			var table_update = ['photo_expresso.login', 'PASSWORD', hash(randompass(10)), result[0]];
+
 			update_passsword = mysql.format(update_passsword, table_update);
 			connection.query(update_passsword, function(err){
 			    if(err)
