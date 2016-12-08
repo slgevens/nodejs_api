@@ -31,11 +31,13 @@ module.exports = function(router, connection) {
 		else {
 		    if(result.length != 0) {
 			// change password if the mail exists and cleaning token and token_validity
+			var generatedPass = randompass(12);
+			console.log(generatedPass);
+			var hash =  pass.generate(generatedPass);
 
-			var hash = pass.generate(randompass.toString());
-			console.log(hash);
+			console.log(pass.verify(generatedPass, hash ));
 			var update_passsword = "UPDATE ?? SET ?? = ? WHERE ?";
-			var table_update = ['photo_expresso.login', 'PASSWORD', hash(randompass(10)), result[0]];
+			var table_update = ['photo_expresso.login', 'PASSWORD', pass.generate(generatedPass), result[0]];
 
 			update_passsword = mysql.format(update_passsword, table_update);
 			connection.query(update_passsword, function(err){
