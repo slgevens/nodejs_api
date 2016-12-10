@@ -6,8 +6,8 @@ var jwtDecode = require('jwt-decode');
 module.exports = function(router, connection) {
     router.route('/commandes/:id?')
         .post(function(req, res){
-	    var query = "INSERT INTO ?? (??, ??) VALUES (?, ?)";
-	    var table = ['photo_expresso.commandes', 'USER_ID', 'content', req.body.id, req.body.content ];
+	    var query = "INSERT INTO ?? (??, ??, ??,??) VALUES (?, ?, ?, ?)";
+	    var table = ['photo_expresso.command', 'ID_USER ', 'NOMBRE_PHOTO', "CONTENT", "PRICE" req.body.id, req.body.number_photo, req.body.content, req.body.price];
 
 	    query = mysql.format(query, table);
 	    connection.query(query, function(err){

@@ -3,12 +3,22 @@ var mysql      = require('mysql');
 var express    = require('express');
 var bodyParser = require('body-parser');
 var cors       = require('cors');
+var https      = require('https');
+var fs         = require('fs');
 
 // A enlever si jamais tu ne veux pas utiliser Oauth
 var jwt        = require('jsonwebtoken');
 // on lui donne le fichier d'environement à configurer
 require('dotenv').config({path: process.env.HOME + '/.env' });
 
+// https part
+var credentials = {
+    key: fs.readFileSync('../certs/privkey.pem', 'utf8'),
+    cert: fs.readFileSync('../certs/cert.pem', 'utf8'),
+    ca: fs.readFileSync('../certs/chain.pem', 'utf8'),
+    requestCert: true,
+    rejectUnauthorized: false
+};
 // on ajoute express qui nous servira d'api
 var app = express();
 var connection;
@@ -62,11 +72,12 @@ var router = express.Router();
 // On autoriste suelement l'access API au login, attention, ne pas mettre le fichier Js, par exemple loginRoute.js
 require('./app/routes/oublieRoute')(router, connection);
 require('./app/routes/inscriptionRoute')(router, connection);
-//require('./app/routes/loginRoute')(router, connection);
 require('./app/routes/papierRoute')(router, connection);
 require('./app/routes/masqueRoute')(router, connection);
 require('./app/routes/promoRoute')(router, connection);
-
+require('./app/routes/fraisRoute')(router, connection);
+require('./app/routes/connexionRoute')(router, connection);
+require('./app/routes/suppressionRoute')(router, connection);
 
 // Si tu n'utilises pas 0auth, Alors Enleve cette partie
 router.use(function(req, res, next) {
@@ -76,7 +87,7 @@ router.use(function(req, res, next) {
     // Si jamais le toke existe, alors on lui demande
     if (token) {
         var removed_bearer = token.replace("Bearer ", '')
-        jwt.verify(removed_bearer, 'token_secret', function(err, decoded) {
+        jwt.verify(removed_bearer, 'nv7D4ZzOQ7', function(err, decoded) {
             if (err) {
                 return res.json({ success: false, message: 'Failed to authenticate token.' });
             } else {
@@ -94,6 +105,7 @@ router.use(function(req, res, next) {
 });
 //require('./app/routes/commandesRoute')(router, connection);
 //require('./app/routes/accountsRoute')(router, connection);
+require('./app/routes/supportRoute')(router, connection);
 
 // Ici sont les Routes si jamais il ont besoin d'etre authentifié pour etre utilisé
 // si jamais tu veux creer une route, fait un require
@@ -101,5 +113,7 @@ router.use(function(req, res, next) {
 // On dit à Express que notre route s'apelle http://xx.xx/api/...
 app.use('/api', router);
 
+var httpsServer = https.createServer(credentials, app);
 // On lui dit d'écouter sur le port 3000
 app.listen(port);
+httpsServer.listen(3443);
