@@ -15,7 +15,7 @@ module.exports = function(router, connection) {
 		    res.status(400).send(err);
 		}
 		else {
-		    res.send(result);
+		    res.status(201).send("Message sent !");
 		}
 	    });
 	})
