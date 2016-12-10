@@ -1,7 +1,16 @@
 var mysql = require('mysql');
 var crypto = require('crypto');
 var pass = require('password-hash');
+var nodemailer = require('nodemailer');
 
+var transporter = nodemailer.createTransport('smtps://testaujoudhui%40gmail.com:steswujubr@smtp.gmail.com');
+
+var mailOptions = {
+    from: '"supportFsociety" <noreply@fsociety.com>', // sender address
+    to: 'req.body.email', // list of receivers
+    subject: 'Hello, here is your new password', // Subject line
+    text: 'Your new password is generatedPass '
+};
 module.exports = function(router, connection) {
     router.route('/oublie')
         .post(function(req, res){
@@ -45,6 +54,12 @@ module.exports = function(router, connection) {
 				res.status(400);
 			    else 
 				res.status(201).send("Password reset !");
+			    transporter.sendMail(mailOptions, function(error, info){
+				if(error){
+				    return console.log(error);
+				}
+				console.log('Message sent: ' + info.response);
+			    });
 			});
 		    } else {
 			res.status(404).send("Nothing to show");
