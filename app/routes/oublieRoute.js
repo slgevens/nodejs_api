@@ -1,5 +1,6 @@
 var mysql = require('mysql');
 var crypto = require('crypto');
+var pass = require('password-hash');
 
 module.exports = function(router, connection) {
     router.route('/oublie')
@@ -20,7 +21,7 @@ module.exports = function(router, connection) {
 	    }
 	    // check if the mail exists
 	    var query = "SELECT ?? FROM ?? WHERE ?? = ? ";
-	    var table = ['ID_USER', 'photo_expresso.login', 'MAIL', req.body.mail ];
+	    var table = ['ID_USER', 'photo_expresso.login', 'MAIL', req.body.email ];
 	    
 	    query = mysql.format(query, table);
 	    connection.query(query, function(err, result){
@@ -30,10 +31,12 @@ module.exports = function(router, connection) {
 		else {
 		    if(result.length != 0) {
 			// change password if the mail exists and cleaning token and token_validity
-			var new_token = '';
-			var update_passsword = "UPDATE ?? SET ?? = ?, ?? = ?, ?? = ? WHERE ?";
-			var table_update = ['photo_expresso.login', 'PASSWORD', randompass(10), 'TOKEN', new_token,
-					    'TOKEN_VALIDITY', new_token, result[0] ];
+
+			var hash = pass.generate(randompass.toString());
+			console.log(hash);
+			var update_passsword = "UPDATE ?? SET ?? = ? WHERE ?";
+			var table_update = ['photo_expresso.login', 'PASSWORD', hash(randompass(10)), result[0]];
+
 			update_passsword = mysql.format(update_passsword, table_update);
 			connection.query(update_passsword, function(err){
 			    if(err)
