@@ -17,9 +17,9 @@ module.exports = function(router, connection) {
 		    res.status(400).send(err);
 		}
 		else {
-		    var selectIdCommand = jwtDecode(req.headers.authorization).ID_USER;
-		    var querySelect = "SELECT * FROM ?? WHERE ?? = ?";
-		    var tableSelect = ['photo_expresso.command', 'ID_USER', selectIdCommand ];
+		    var selectIdUser = jwtDecode(req.headers.authorization).ID_USER;
+		    var querySelect = "SELECT ?? FROM ?? WHERE ?? = ? ORDER BY ?? DESC LIMIT 1";
+		    var tableSelect = ['ID_COMMAND' ,'photo_expresso.command', 'ID_USER', selectIdUser, 'ID_COMMAND'];
 
 		    querySelect = mysql.format(querySelect, tableSelect);
 		    connection.query(querySelect, function(err, resultSelect){
@@ -27,16 +27,19 @@ module.exports = function(router, connection) {
 			    res.status(400).send(err);
 			}
 			else {
-			    console.log('8888888888888888');
-			    console.log(resultSelect[0].ID_COMMAND);
-			    console.log('8888888888888888');
-			    
 			    var queryDestination = "INSERT INTO ?? (??, ??, ??,??, ??, ??, ??, ??) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 			    var tableDestination = ['photo_expresso.command_destination', 'ID_COMMAND', 'FIRSTNAME',
 						    'LASTNAME', 'ADDR_L1', 'ADDR_L2', 'POSTAL_CODE', 'CITY',
 						    'COMPLEMENT', resultSelect[0].ID_COMMAND, req.body.firstname, req.body.lastname,
 						    req.body.addr_l1, req.body.add_l2, req.body.postal_code,
-						    req.body.city, req.body.complement];			    
+						    req.body.city, req.body.complement];
+			    queryDestination = mysql.format(queryDestination, tableDestination);
+			    connection.query(queryDestination, function(err, resultDestination){
+				if (err)
+				    res.status(400).send(err);
+				else
+				    res.status(200);
+			    })
 			}
 		    });
 		    res.status(201).send("Order created !")
@@ -47,7 +50,7 @@ module.exports = function(router, connection) {
         .get(function(req, res){
 	    var iDUserDecode = jwtDecode(req.headers.authorization).ID_USER;
 	    var query = "SELECT * FROM ?? WHERE ?? = ?";
-	    var table = ['photo_expresso.command', 'ID_USER', iDUserDecode ];
+	    var table = ['photo_expresso.view_command_detail', 'ID_USER', iDUserDecode ];
 	    
 	    query = mysql.format(query, table)
 	    connection.query(query, function(err, result){
