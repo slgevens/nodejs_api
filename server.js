@@ -103,7 +103,7 @@ router.use(function(req, res, next) {
         });
     }
 });
-//require('./app/routes/commandesRoute')(router, connection);
+require('./app/routes/commandesRoute')(router, connection);
 //require('./app/routes/accountsRoute')(router, connection);
 require('./app/routes/supportRoute')(router, connection);
 
