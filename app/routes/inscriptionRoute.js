@@ -27,11 +27,12 @@ module.exports = function(router, connection) {
 			    res.status(400).send(err);
 			}
 			else {			    
-			    var queryInsertUser = "INSERT INTO ?? (??, ??, ??, ??, ??, ??, ??, ??) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+			    var queryInsertUser = "INSERT INTO ?? (??, ??, ??, ??, ??, ??, ??, ??, ??, ??) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			    var tableInsertUSer = ['photo_expresso.users', 'FIRSTNAME', 'LASTNAME', 'ADDR_L1',
-						   'ADDR_L2', 'COMPLEMENT', 'POSTAL_CODE', 'CITY', 'ID_USER',
+						   'ADDR_L2', 'COMPLEMENT', 'POSTAL_CODE', 'CITY', 'ID_MASQUE', 'ID_PAPER', 'ID_USER',
 						   req.body.firstname, req.body.lastname, req.body.addr_l1, req.body.addr_l2,
-						   req.body.complement, req.body.postal_code, req.body.city, resultInsert.insertId];
+						   req.body.complement, req.body.postal_code, req.body.city, req.body.id_masque,
+						   req.body.id_paper, resultInsert.insertId];
 			    queryInsertUser = mysql.format(queryInsertUser, tableInsertUSer);
 			    connection.query(queryInsertUser, function(err){
 				if (err)
