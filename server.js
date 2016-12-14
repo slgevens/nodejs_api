@@ -104,8 +104,8 @@ router.use(function(req, res, next) {
     }
 });
 require('./app/routes/commandesRoute')(router, connection);
-//require('./app/routes/accountsRoute')(router, connection);
 require('./app/routes/supportRoute')(router, connection);
+require('./app/routes/compteRoute')(router, connection);
 
 // Ici sont les Routes si jamais il ont besoin d'etre authentifié pour etre utilisé
 // si jamais tu veux creer une route, fait un require
