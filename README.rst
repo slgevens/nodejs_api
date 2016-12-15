@@ -24,6 +24,7 @@ Requirements
 -------------
 
 This package is required :
+
 - mysql-server
 
 The following attributes to use your database should be in your home directory ``/home/$USER/.env``:
@@ -53,7 +54,7 @@ Install of node-js and clone of the current repoitory : ::
 Start
 ----------
 
-Starting node=js : ::
+Starting node-js : ::
 
    cd /home/$USER/new_node_project
    npm start
