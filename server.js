@@ -77,7 +77,6 @@ require('./app/routes/masqueRoute')(router, connection);
 require('./app/routes/promoRoute')(router, connection);
 require('./app/routes/fraisRoute')(router, connection);
 require('./app/routes/connexionRoute')(router, connection);
-require('./app/routes/suppressionRoute')(router, connection);
 
 // Si tu n'utilises pas 0auth, Alors Enleve cette partie
 router.use(function(req, res, next) {
@@ -106,7 +105,7 @@ router.use(function(req, res, next) {
 require('./app/routes/commandesRoute')(router, connection);
 require('./app/routes/supportRoute')(router, connection);
 require('./app/routes/compteRoute')(router, connection);
-
+require('./app/routes/suppressionRoute')(router, connection);
 // Ici sont les Routes si jamais il ont besoin d'etre authentifié pour etre utilisé
 // si jamais tu veux creer une route, fait un require
 
