@@ -115,7 +115,7 @@ Here are the route that you need to be authenticate to use :
 
   These route need a token to work, to do so you have to copy/paste the returned token in the header section of the RESTClient with the attribut ``Bearer`` + ``space`` before the token like. ::
 
-    ``Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRF9VU0VSIjoyMiwiTUFJTCI6ImV2ZW5zQGxpdmUuZnIiLCJGSVJTVE5BTUUiOm51bGwsIkxBU1ROQU1FIjpudWxsLCJpYXQiOjE0ODEzOTcxMzMsImV4cCI6MTQ4MTQxMTUzM30.kduJALlwNi4PkOYc7jGBey9arNSfy_KF3l1KHnbeTfQ``
+    Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRF9VU0VSIjoyMiwiTUFJTCI6ImV2ZW5zQGxpdmUuZnIiLCJGSVJTVE5BTUUiOm51bGwsIkxBU1ROQU1FIjpudWxsLCJpYXQiOjE0ODEzOTcxMzMsImV4cCI6MTQ4MTQxMTUzM30.kduJALlwNi4PkOYc7jGBey9arNSfy_KF3l1KHnbeTfQ
     
 Tests
 -------
