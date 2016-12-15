@@ -235,4 +235,4 @@ Get last send message send to support :
     }
    ]
 
-Now you know how it :strike:`rocks` works!. For each route that need a authentication you have to use the token in the HEADERS section and for those who don't need it, don't use it.
+Now you know how it works!. For each route that need a authentication you have to use the token in the HEADERS section and for those who don't need it, don't use it.
