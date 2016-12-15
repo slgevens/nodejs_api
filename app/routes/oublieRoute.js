@@ -20,8 +20,8 @@ module.exports = function(router, connection) {
 		return value.join('');
 	    }
 	    // check if the mail exists
-	    var query = "SELECT ?? FROM ?? WHERE ?? = ? ";
-	    var table = ['ID_USER', 'photo_expresso.login', 'MAIL', req.body.email ];
+	    var query = "SELECT ?? FROM ?? WHERE ?? = ? AND ?? = ?";
+	    var table = ['ID_USER', 'photo_expresso.login', 'IS_ARCHIVED', '0', 'MAIL', req.body.email];
 	    
 	    query = mysql.format(query, table);
 	    connection.query(query, function(err, result){
