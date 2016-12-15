@@ -63,15 +63,19 @@ Files
 ======
 
 Server configuration file :
+
 - /node-js_api/server.js
   
 Package install :
+
 - /node-js_api/package.json
 
 Node modules :
+
 - /node-js_api/node_modules/
 
 Route files :
+
 - /node-js_api/app/routes/commandesRoute.js
 - /node-js_api/app/routes/connexionRoute.js
 - /node-js_api/app/routes/masqueRoute.js
