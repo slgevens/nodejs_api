@@ -120,7 +120,6 @@ Here are the route that you need to be authenticate to use :
 Tests
 -------
 .. role:: strike
-	  :class: strike
 		  
 Let's suppose that you Node-js API is on the following server : ``evens.link``. You will have to make your request on this address ``https://evens.link:3443/api/hello``. (where hello is the default route that return, ``Hello !``, meaning ? Your Node-js server :strike:`rocks` works!).
 
