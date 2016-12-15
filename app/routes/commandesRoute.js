@@ -5,11 +5,10 @@ module.exports = function(router, connection) {
     router.route('/commandes/:id?')
         .post(function(req, res){
 	    var decodeIdUser = jwtDecode(req.headers.authorization).ID_USER;
-	    var query = "INSERT INTO ?? (??, ??, ??, ??, ??, ??, ??, ??) VALUES ('?', ?, ?, ?, ?, ?, ?, ?)";
-	    var table = ['photo_expresso.command', 'ID_USER', 'NOMBRE_PHOTO', 'PRICE', 'CONTENT', 'STATUS',
-			 'COMMAND_FILES', 'ID_MASQUE', 'ID_PAPER', decodeIdUser, req.body.nbr_photo,
-			 req.body.price, req.body.content, '0', req.body.files,
-			 req.body.id_masque, req.body.id_paper ];
+	    var query = "INSERT INTO ?? (??, ??, ??, ??, ??, ??, ??, ??, ??) VALUES ('?', ?, ?, ?, ?, ?, ?, ?, ?)";
+	    var table = ['photo_expresso.command', 'ID_USER', 'NOMBRE_PHOTO', 'PRICE', 'CONTENT', 'STATUS', 'COMMAND_FILES',
+			 'ID_MASQUE', 'ID_PAPER', 'CODE_PROMO', decodeIdUser, req.body.nbr_photo, req.body.price, req.body.content,
+			 '0', req.body.files, req.body.id_masque, req.body.id_paper, req.body.code_promo ];
 	    
 	    query = mysql.format(query, table);
 	    connection.query(query, function(err, result){
