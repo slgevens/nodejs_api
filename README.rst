@@ -36,7 +36,6 @@ The following attributes to use your database should be in your home directory `
    DB=bdd_name
    DB_PORT=3306
    
-
 Installation
 -------------
 
