@@ -91,7 +91,8 @@ Route files :
 Play
 ======
 
-To see the result of every request that you are going to test, I strongly recommend to use a RESTClient, mine is a Google Chrome extention_. 
+To see the result of every request that you are going to test, I strongly recommend to use a RESTClient, mine is a Google Chrome extention_
+
 .. _extention: https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop
 
 After launching your RESTClient you can try the following ``route`` without being authenticate :
