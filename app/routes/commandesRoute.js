@@ -27,10 +27,14 @@ module.exports = function(router, connection) {
 			    res.status(400).send(err);
 			}
 			else {
+			    var promoUsingQuery = "INSERT INTO ?? (??) VALUES (?)";
+			    var promoUsingTable = ['photo_expresso.code_promo_using', 'ID_COMMAND', resultSelect[0].ID_COMMAND];
+			    // to finish
+			    
 			    // multiple upload to handle
 			    var itemCommandQuery = "INSERT INTO ?? (??, ??, ??, ??, ??) VALUES (?, ?, ?, ?, ?)";
 			    var itemCommandTable = ['photo_expresso.command_items', 'ID_COMMAND', 'FILE', 'ID_PAPER', 'ID_MASQUE', 'NUMBER_ITEMS', 
-						    resultSelect[0].ID_COMMAND, '///', req.body.id_paper, req.body.id_masque, req.body.number_items];
+						    resultSelect[0].ID_COMMAND, req.body.file, req.body.id_paper, req.body.id_masque, req.body.number_items];
 			    itemCommandQuery = mysql.format(itemCommandQuery, itemCommandTable);
 			    connection.query(itemCommandQuery, function(err, resulItem){
 				if (err) {
