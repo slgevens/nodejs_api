@@ -4,11 +4,12 @@ var jwtDecode = require('jwt-decode');
 module.exports = function(router, connection) {
     router.route('/commandes/:id?')
         .post(function(req, res){
+
 	    var decodeIdUser = jwtDecode(req.headers.authorization).ID_USER;
-	    var query = "INSERT INTO ?? (??, ??, ??, ??, ??, ??, ??, ??, ??) VALUES ('?', ?, ?, ?, ?, ?, ?, ?, ?)";
-	    var table = ['photo_expresso.command', 'ID_USER', 'NOMBRE_PHOTO', 'PRICE', 'CONTENT', 'STATUS', 'COMMAND_FILES',
-			 'ID_MASQUE', 'ID_PAPER', 'CODE_PROMO', decodeIdUser, req.body.nbr_photo, req.body.price, req.body.content,
-			 '0', req.body.files, req.body.id_masque, req.body.id_paper, req.body.code_promo ];
+
+	    var query = "INSERT INTO ?? (??, ??, ??, ??, ??) VALUES ('?', ?, ?, ?, ?)";
+	    var table = ['photo_expresso.command', 'ID_USER', 'NOMBRE_PHOTO', 'PRICE', 'STATUS', 'DESTINATION_NUMBER',
+			 decodeIdUser, req.body.nbr_photo, req.body.price, '0', req.bdoy.destination_number];
 	    
 	    query = mysql.format(query, table);
 	    connection.query(query, function(err, result){
@@ -26,23 +27,36 @@ module.exports = function(router, connection) {
 			    res.status(400).send(err);
 			}
 			else {
-			    var queryDestination = "INSERT INTO ?? (??, ??, ??,??, ??, ??, ??, ??) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-			    var tableDestination = ['photo_expresso.command_destination', 'ID_COMMAND', 'FIRSTNAME',
-						    'LASTNAME', 'ADDR_L1', 'ADDR_L2', 'POSTAL_CODE', 'CITY',
-						    'COMPLEMENT', resultSelect[0].ID_COMMAND, req.body.firstname, req.body.lastname,
-						    req.body.addr_l1, req.body.add_l2, req.body.postal_code,
-						    req.body.city, req.body.complement];
-			    queryDestination = mysql.format(queryDestination, tableDestination);
-			    connection.query(queryDestination, function(err, resultDestination){
-				if (err)
+			    // multiple upload to handle
+			    var itemCommandQuery = "INSERT INTO ?? (??, ??, ??, ??, ??) VALUES (?, ?, ?, ?, ?)";
+			    var itemCommandTable = ['photo_expresso.command_items', 'ID_COMMAND', 'FILE', 'ID_PAPER', 'ID_MASQUE', 'NUMBER_ITEMS', 
+						    resultSelect[0].ID_COMMAND, '///', req.body.id_paper, req.body.id_masque, req.body.number_items];
+			    itemCommandQuery = mysql.format(itemCommandQuery, itemCommandTable);
+			    connection.query(itemCommandQuery, function(err, resulItem){
+				if (err) {
 				    res.status(400).send(err);
-				else
-				    res.status(200);
-			    })
+				}
+				else {
+				    // mutilple destination to do
+				    var queryDestination = "INSERT INTO ?? (??, ??, ??, ??, ??, ??, ??, ??) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+				    var tableDestination = ['photo_expresso.command_destination', 'ID_COMMAND', 'FIRSTNAME',
+							    'LASTNAME', 'ADDR_L1', 'ADDR_L2', 'POSTAL_CODE', 'CITY', 'COMPLEMENT',
+							    resultSelect[0].ID_COMMAND, req.body.firstname, req.body.lastname, req.body.addr_l1,
+							    req.body.add_l2, req.body.postal_code, req.body.city, req.body.complement];
+				    
+				    queryDestination = mysql.format(queryDestination, tableDestination);
+				    connection.query(queryDestination, function(err, resultDestination){
+					if (err)
+					    res.status(400).send(err);
+					else
+					    res.status(200);				    
+				    });
+				}
+			    });
 			}
 		    });
-		    res.status(201).send("Order created !")
 		}
+		res.status(201).send("Order created !")
 	    });
 	})
     
@@ -61,5 +75,4 @@ module.exports = function(router, connection) {
 		}
 	    });
 	})
-    
-};
+}
