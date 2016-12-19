@@ -7,7 +7,7 @@ module.exports = function(router, connection) {
 	    var idUserDecodeSupport = jwtDecode(req.headers.authorization).ID_USER;
 	    var querySupport = "INSERT INTO ?? (??, ??, ??, ??) VALUES (?, ?, ?, ?)";
 	    var tableSupport = ['photo_expresso.demande_sav', 'ID_USER', 'TYPE', 'STATUS', 'CONTENT',
-				idUserDecodeSupport, req.body.type, 'Ouvert', req.body.content ];
+				idUserDecodeSupport, req.body.type, '0', req.body.content ];
 
 	    querySupport = mysql.format(querySupport, tableSupport);
 	    connection.query(querySupport, function(err, result){
