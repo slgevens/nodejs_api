@@ -4,6 +4,7 @@ var jwtDecode = require('jwt-decode');
 module.exports = function(router, connection) {
     router.route('/compte/:id?')
 	.get(function(req, res){
+
 	    var getIdUserDecodeCompte = jwtDecode(req.headers.authorization).ID_USER;
 	    var queryGetCompte = "SELECT * FROM ?? WHERE ?? = ?";
 	    var tableGetCompte = ['photo_expresso.view_compte', 'ID_USER', getIdUserDecodeCompte];
