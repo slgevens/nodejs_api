@@ -4,7 +4,7 @@ module.exports = function(router, connection) {
     router.route('/promotion')
         .get(function(req, res){
 	    var query = "SELECT * FROM ?? WHERE ?? = ?";
-	    var table = ['photo_expresso.settings', 'STATUS', '0'];
+	    var table = ['photo_expresso.promo', 'STATUS', '0'];
 
 	    query = mysql.format(query, table);
 	    connection.query(query, function(err, result){
