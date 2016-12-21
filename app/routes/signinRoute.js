@@ -7,10 +7,10 @@ module.exports = function(router, connection) {
         .get(function(req, res) {
             res.status(200).send("Hello !");
         })
-    router.route('/connexion')
+    router.route('/signin')
 	.post(function(req, res){
 	    var query_1 = "SELECT * FROM ?? WHERE ?? = ? AND ?? = ?";
-	    var table_1 = ['photo_expresso.login', 'MAIL', req.body.email, 'IS_ARCHIVED', 0];	  
+	    var table_1 = ['photo_expresso_v1.login', 'MAIL', req.body.email, 'IS_ARCHIVED', 0];	  
 
 	    query_1 = mysql.format(query_1, table_1);
 	    connection.query(query_1, function(err, result){
@@ -27,7 +27,7 @@ module.exports = function(router, connection) {
 		    }
 		    else {
 			var query_2 = "SELECT ID_USER, MAIL, FIRSTNAME, LASTNAME FROM ?? WHERE ?? = ? AND ?? = ?";
-			var table_2 = ['photo_expresso.view_users_detail', 'ID_USER', result[0].ID_USER, 'MAIL', req.body.email];
+			var table_2 = ['photo_expresso_v1.view_users_detail', 'ID_USER', result[0].ID_USER, 'MAIL', req.body.email];
 			query_2 = mysql.format(query_2, table_2);
 			connection.query(query_2, function(err, result_2){
 			    if  (err) {

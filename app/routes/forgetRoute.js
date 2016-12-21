@@ -3,7 +3,7 @@ var crypto = require('crypto');
 var pass = require('password-hash');
 
 module.exports = function(router, connection) {
-    router.route('/oublie')
+    router.route('/forget')
         .post(function(req, res){
 	    // https://blog.tompawlak.org/generate-random-values-nodejs-javascript
 	    // to generate a radom password in lower and UPPERCASE
@@ -21,7 +21,7 @@ module.exports = function(router, connection) {
 	    }
 	    // check if the mail exists
 	    var query = "SELECT ?? FROM ?? WHERE ?? = ? AND ?? = ?";
-	    var table = ['ID_USER', 'photo_expresso.login', 'IS_ARCHIVED', '0', 'MAIL', req.body.email];
+	    var table = ['ID_USER', 'photo_expresso_v1.login', 'IS_ARCHIVED', '0', 'MAIL', req.body.email];
 	    
 	    query = mysql.format(query, table);
 	    connection.query(query, function(err, result){
@@ -37,7 +37,7 @@ module.exports = function(router, connection) {
 
 			console.log(pass.verify(generatedPass, hash ));
 			var update_passsword = "UPDATE ?? SET ?? = ? WHERE ?";
-			var table_update = ['photo_expresso.login', 'PASSWORD', pass.generate(generatedPass), result[0]];
+			var table_update = ['photo_expresso_v1.login', 'PASSWORD', pass.generate(generatedPass), result[0]];
 
 			update_passsword = mysql.format(update_passsword, table_update);
 			connection.query(update_passsword, function(err){

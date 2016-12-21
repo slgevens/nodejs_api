@@ -2,11 +2,11 @@ var mysql = require('mysql');
 var pass = require('password-hash');
 
 module.exports = function(router, connection) {
-    router.route('/inscription')
+    router.route('/signup')
         .post(function(req, res){
 
 	    var querySelect = "SELECT ?? FROM ?? WHERE ?? = ?";
-	    var tableSelect = ['MAIL', 'photo_expresso.login', 'MAIL', req.body.email ];
+	    var tableSelect = ['MAIL', 'photo_expresso_v1.login', 'MAIL', req.body.email ];
 
 	    querySelect = mysql.format(querySelect, tableSelect);	
 	    connection.query(querySelect, function(err, resultSelect){
@@ -18,7 +18,7 @@ module.exports = function(router, connection) {
 		}
 		else {
 		    var queryInsert = "INSERT INTO ?? (??, ??, ??) VALUES (?, ?, ?)";
-		    var tableInsert = ['photo_expresso.login', 'MAIL', 'PASSWORD', 'IS_ARCHIVED',
+		    var tableInsert = ['photo_expresso_v1.login', 'MAIL', 'PASSWORD', 'IS_ARCHIVED',
 				   req.body.email, pass.generate(req.body.password), '0'];
 		    
 		    queryInsert = mysql.format(queryInsert, tableInsert);
@@ -28,8 +28,8 @@ module.exports = function(router, connection) {
 			}
 			else {			    
 			    var queryInsertUser = "INSERT INTO ?? (??, ??, ??, ??, ??, ??, ??, ??, ??, ??) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-			    var tableInsertUSer = ['photo_expresso.users', 'FIRSTNAME', 'LASTNAME', 'ADDR_L1',
-						   'ADDR_L2', 'COMPLEMENT', 'POSTAL_CODE', 'CITY', 'ID_MASQUE', 'ID_PAPER', 'ID_USER',
+			    var tableInsertUSer = ['photo_expresso_v1.users', 'FIRSTNAME', 'LASTNAME', 'ADDR_L1',
+						   'ADDR_L2', 'COMPLEMENT', 'POSTAL_CODE', 'CITY', 'ID_MASK', 'ID_PAPER', 'ID_USER',
 						   req.body.firstname, req.body.lastname, req.body.addr_l1, req.body.addr_l2,
 						   req.body.complement, req.body.postal_code, req.body.city, req.body.id_masque,
 						   req.body.id_paper, resultInsert.insertId];

@@ -6,7 +6,7 @@ module.exports = function(router, connection) {
         .post(function(req, res){
 	    var idUserDecodeSupport = jwtDecode(req.headers.authorization).ID_USER;
 	    var querySupport = "INSERT INTO ?? (??, ??, ??, ??) VALUES (?, ?, ?, ?)";
-	    var tableSupport = ['photo_expresso.demande_sav', 'ID_USER', 'TYPE', 'STATUS', 'CONTENT',
+	    var tableSupport = ['photo_expresso_v1.request_ass', 'ID_USER', 'TYPE', 'STATUS', 'CONTENT',
 				idUserDecodeSupport, req.body.type, '0', req.body.content ];
 
 	    querySupport = mysql.format(querySupport, tableSupport);
@@ -23,7 +23,7 @@ module.exports = function(router, connection) {
 	.get(function(req, res){
 	    var getIdUserDecodeSupport = jwtDecode(req.headers.authorization).ID_USER;
 	    var queryGetSupport = "SELECT * FROM ?? WHERE ?? = ?";
-	    var tableGetSupport = ['photo_expresso.demande_sav', 'ID_USER', getIdUserDecodeSupport];
+	    var tableGetSupport = ['photo_expresso_v1.request_ass', 'ID_USER', getIdUserDecodeSupport];
 
 	    queryGetSupport = mysql.format(queryGetSupport, tableGetSupport);
 	    connection.query(queryGetSupport, function(err, result){
