@@ -70,13 +70,13 @@ var port   = process.env.PORT || 3000;
 var router = express.Router();
 
 // On autoriste suelement l'access API au login, attention, ne pas mettre le fichier Js, par exemple loginRoute.js
-require('./app/routes/oublieRoute')(router, connection);
-require('./app/routes/inscriptionRoute')(router, connection);
-require('./app/routes/papierRoute')(router, connection);
-require('./app/routes/masqueRoute')(router, connection);
+require('./app/routes/forgetRoute')(router, connection);
+require('./app/routes/signupRoute')(router, connection);
+require('./app/routes/signinRoute')(router, connection);
 require('./app/routes/promoRoute')(router, connection);
-require('./app/routes/fraisRoute')(router, connection);
-require('./app/routes/connexionRoute')(router, connection);
+require('./app/routes/shippingRoute')(router, connection);
+require('./app/routes/paperRoute')(router, connection);
+require('./app/routes/maskRoute')(router, connection);
 
 // Si tu n'utilises pas 0auth, Alors Enleve cette partie
 router.use(function(req, res, next) {
@@ -102,10 +102,10 @@ router.use(function(req, res, next) {
         });
     }
 });
-require('./app/routes/commandesRoute')(router, connection);
+require('./app/routes/ordersRoute')(router, connection);
 require('./app/routes/supportRoute')(router, connection);
-require('./app/routes/compteRoute')(router, connection);
-require('./app/routes/suppressionRoute')(router, connection);
+require('./app/routes/accountRoute')(router, connection);
+require('./app/routes/deleteRoute')(router, connection);
 // Ici sont les Routes si jamais il ont besoin d'etre authentifié pour etre utilisé
 // si jamais tu veux creer une route, fait un require
 
