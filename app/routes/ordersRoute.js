@@ -4,73 +4,91 @@ var jwtDecode = require('jwt-decode');
 module.exports = function(router, connection) {
     router.route('/orders/:id?')
         .post(function(req, res){
-
-	    var decodeIdUser = jwtDecode(req.headers.authorization).ID_USER;
-
-	    var query = "INSERT INTO ?? (??, ??, ??, ??, ??) VALUES ('?', ?, ?, ?, ?)";
-	    var table = ['photo_expresso_v1.orders', 'ID_USER', 'NUMBER_PHOTO', 'PRICE', 'STATUS', 'DESTINATIONS_NUMBER',
-			 decodeIdUser, req.body.nbr_photo, req.body.price, '0', req.body.destinations_number];
+	    // to do 
+	    var decodeMail = jwtDecode(req.headers.authorization).ID_USER;
+	    var queryMail = "SELECT * FROM ?? WHERE ?? = ? AND ?? = ?";
+	    var tableMail = ['photo_expresso_v1.view_users_detail', 'ID_USER', decodeMail, 'IS_ARCHIVED', '0'];
 	    
-	    query = mysql.format(query, table);
-	    connection.query(query, function(err, result){
+	    queryMail = mysql.format(queryMail, tableMail);
+	    connection.query(queryMail, function(err, resultExist){
 		if (err) {
-		    res.status(400).send(err);
+                    res.status(400).send(err);		    
+		}
+		else if (resultExist.length == 0) {
+		    res.status(404).send("Adresse mail ou mot de passe introuvable !");	
 		}
 		else {
-		    var selectIdUser = jwtDecode(req.headers.authorization).ID_USER;
-		    var querySelect = "SELECT ?? FROM ?? WHERE ?? = ? ORDER BY ?? DESC LIMIT 1";
-		    var tableSelect = ['ID_ORDER' ,'photo_expresso_v1.orders', 'ID_USER', selectIdUser, 'ID_ORDER'];
-
-		    querySelect = mysql.format(querySelect, tableSelect);
-		    connection.query(querySelect, function(err, resultSelect){
+		    var decodeIdUser = jwtDecode(req.headers.authorization).ID_USER;
+		    var query = "INSERT INTO ?? (??, ??, ??, ??, ??) VALUES ('?', ?, ?, ?, ?)";
+		    var table = ['photo_expresso_v1.orders', 'ID_USER', 'NUMBER_PHOTO', 'PRICE', 'STATUS', 'DESTINATIONS_NUMBER',
+				 decodeIdUser, req.body.nbr_photo, req.body.price, '0', req.body.destinations_number];
+		    
+		    query = mysql.format(query, table);
+		    connection.query(query, function(err, result){
 			if (err) {
 			    res.status(400).send(err);
 			}
 			else {
-			    var promoUsingQuery = "INSERT INTO ?? (??, ??) VALUES (?, ?)";
-			    var promoUsingTable = ['photo_expresso_v1.code_promo_using', 'ID_CODE_PROMO', 'ID_ORDER', req.body.code_promo, resultSelect[0].ID_ORDER];
-
-			    promoUsingQuery = mysql.format(promoUsingQuery, promoUsingTable);
-			    connection.query(promoUsingQuery, function(err, resultPromo){
+			    var selectIdUser = jwtDecode(req.headers.authorization).ID_USER;
+			    var querySelect = "SELECT ?? FROM ?? WHERE ?? = ? ORDER BY ?? DESC LIMIT 1";
+			    var tableSelect = ['ID_ORDER' ,'photo_expresso_v1.orders', 'ID_USER', selectIdUser, 'ID_ORDER'];
+			    
+			    querySelect = mysql.format(querySelect, tableSelect);
+			    connection.query(querySelect, function(err, resultSelect){
 				if (err) {
-				    res.status(400).send(err);				    
+				    res.status(400).send(err);
 				}
-				else {							    
-				    // multiple upload to handle
-				    var itemCommandQuery = "INSERT INTO ?? (??, ??, ??, ??, ??) VALUES (?, ?, ?, ?, ?)";
-				    var itemCommandTable = ['photo_expresso_v1.order_items', 'ID_ORDER', 'FILE', 'ID_PAPER', 'ID_MASK', 'NUMBER_ITEMS', 
-							    resultSelect[0].ID_ORDER, req.body.file, req.body.id_paper, req.body.id_masque, req.body.number_items];
-				    itemCommandQuery = mysql.format(itemCommandQuery, itemCommandTable);
-				    connection.query(itemCommandQuery, function(err, resulItem){
+				else {
+				    console.log('222222222222222222222222222');
+				    console.log(req.body.code_promos.length);
+				    console.log(req.body.order_items.length);				    
+				    console.log('222222222222222222222222222');
+				    var promoUsingQuery = "INSERT INTO ?? (??, ??) VALUES (?, ?)";
+				    var promoUsingTable = ['photo_expresso_v1.code_promo_using', 'ID_CODE_PROMO', 'ID_ORDER', req.body.code_promo, resultSelect[0].ID_ORDER];
+				    
+				    promoUsingQuery = mysql.format(promoUsingQuery, promoUsingTable);
+				    connection.query(promoUsingQuery, function(err, resultPromo){
 					if (err) {
-					    res.status(400).send(err);
+					    res.status(400).send(err);				    
 					}
-					else {
-					    // mutilple destination to do
-					    var queryDestination = "INSERT INTO ?? (??, ??, ??, ??, ??, ??, ??, ??) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-					    var tableDestination = ['photo_expresso_v1.order_destination', 'ID_ORDER', 'FIRSTNAME',
-								    'LASTNAME', 'ADDR_L1', 'ADDR_L2', 'POSTAL_CODE', 'CITY', 'COMPLEMENT',
-								    resultSelect[0].ID_ORDER, req.body.firstname, req.body.lastname, req.body.addr_l1,
-								    req.body.add_l2, req.body.postal_code, req.body.city, req.body.complement];
-					    
-					    queryDestination = mysql.format(queryDestination, tableDestination);
-					    connection.query(queryDestination, function(err, resultDestination){
+					else {							    
+					    // multiple upload to handle
+					    var itemCommandQuery = "INSERT INTO ?? (??, ??, ??, ??, ??) VALUES (?, ?, ?, ?, ?)";
+					    var itemCommandTable = ['photo_expresso_v1.order_items', 'ID_ORDER', 'FILE', 'ID_PAPER', 'ID_MASK', 'NUMBER_ITEMS', 
+								    resultSelect[0].ID_ORDER, req.body.file, req.body.id_paper, req.body.id_masque, req.body.number_items];
+					    itemCommandQuery = mysql.format(itemCommandQuery, itemCommandTable);
+					    connection.query(itemCommandQuery, function(err, resulItem){
 						if (err) {
 						    res.status(400).send(err);
 						}
 						else {
-						    res.status(200);
-						}
+						    // mutilple destination to do
+						    var queryDestination = "INSERT INTO ?? (??, ??, ??, ??, ??, ??, ??, ??) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+						    var tableDestination = ['photo_expresso_v1.order_destination', 'ID_ORDER', 'FIRSTNAME',
+									    'LASTNAME', 'ADDR_L1', 'ADDR_L2', 'POSTAL_CODE', 'CITY', 'COMPLEMENT',
+									    resultSelect[0].ID_ORDER, req.body.firstname, req.body.lastname, req.body.addr_l1,
+									    req.body.add_l2, req.body.postal_code, req.body.city, req.body.complement];
+						    
+						    queryDestination = mysql.format(queryDestination, tableDestination);
+						    connection.query(queryDestination, function(err, resultDestination){
+							if (err) {
+							    res.status(400).send(err);
+							}
+							else {
+							    res.status(200);
+							}
+						    });
+						}				    
 					    });
-					}				    
+					}
 				    });
 				}
 			    });
+			    res.status(201).send("Order created !");
 			}
 		    });
-		    res.status(201).send("Order created !");
 		}
-	    });
+	    });	    
 	})
     
         .get(function(req, res){
