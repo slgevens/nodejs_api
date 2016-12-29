@@ -6,7 +6,7 @@ module.exports = function(router, connection) {
 	.put(function(req, res){
 	    var decodeIdUser = jwtDecode(req.headers.authorization).ID_USER;
 	    var query = "UPDATE ?? SET ?? = ? WHERE ?? = ?"
-	    var table = ['photo_expresso_v1.login', 'is_archived', '1', 'ID_USER', decodeIdUser];
+	    var table = ['photo_expresso_v1.login', 'IS_ARCHIVED', '1', 'ID_USER', decodeIdUser];
 	    
 	    query = mysql.format(query, table);
 	    connection.query(query, function(err) {
