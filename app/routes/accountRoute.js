@@ -1,4 +1,5 @@
-var mysql = require('mysql');
+var mysql     = require('mysql');
+var pass      = require('password-hash');
 var jwtDecode = require('jwt-decode');
 
 module.exports = function(router, connection) {
@@ -30,7 +31,17 @@ module.exports = function(router, connection) {
 			    res.status(400).send(err);
 			} 
 			else {
-			    res.send('Address updated !');
+			    var decodeUserAddr = jwtDecode(req.headers.authorization).ID_USER;
+			    var queryUpdatePassword = " UPDATE ?? SET ?? = ?";
+			    var tableUpdatePassword = ['photo_expresso_v1.login', 'PASSWORD', pass.generate(req.body.password)];
+
+			    queryUpdatePassword = mysql.format(queryUpdatePassword, tableUpdatePassword);
+			    connection.query(queryUpdatePassword, function(err, resultPassword){
+				if (err)
+				    res.status(400).send(err);
+				else
+				    res.send('Address updated !');
+			    });
 			}
 		    });
 		}
