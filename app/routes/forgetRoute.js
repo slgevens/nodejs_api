@@ -39,10 +39,10 @@ module.exports = function(router, connection) {
 			    }
 			});
 			var mailOptions = {
-			    from: 'FSociety ESTIAM',
+			    from: 'Fsociety ESTIAM',
 			    to: req.body.email,
 			    subject : 'Here is your new password',
-			    html: '<h4>Hello !</h4> <br/><b>Here is your new password : </b><b>' + generatedPass + '</b></b> <p>Have a great day </p></br>--</br><h4>Fsociety Team</h4>'
+			    html: "<h4>Hello !</h4> <br/><b>Here is your new password : </b><b>" + generatedPass + "</b><p> Don't forget to change it !</p> <p>Have a great day </p>--</br><h4>Fsociety Team</h4>"
 			};
 			var update_passsword = "UPDATE ?? SET ?? = ? WHERE ?";
 			var table_update = ['photo_expresso_v1.login', 'PASSWORD', pass.generate(generatedPass), result[0]];
