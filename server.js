@@ -36,7 +36,7 @@ function handleDisconnect() {
       	database : process.env.DB,
       	port     : process.env.DB_PORT,
         // à enlever Une fois le mode débug terminé
-      	debug    :  true
+	 debug    :  true
     });
 
     // Best practice, si jamais la base est off le serveur va tenter de se reconnecter
@@ -82,6 +82,7 @@ require('./app/routes/promoRoute')(router, connection);
 require('./app/routes/shippingRoute')(router, connection);
 require('./app/routes/paperRoute')(router, connection);
 require('./app/routes/maskRoute')(router, connection);
+require('./app/routes/uploadRoute')(router, connection);
 
 // Si tu n'utilises pas 0auth, Alors Enleve cette partie
 router.use(function(req, res, next) {
