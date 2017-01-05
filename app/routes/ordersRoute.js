@@ -2,7 +2,7 @@ var mysql = require('mysql');
 var jwtDecode = require('jwt-decode');
 
 module.exports = function(router, connection) {
-
+    // to loop and insert multiple items
     var insertItem = function(iIdOrder, aItems, iCurrentIndex, fCallbackSuccess, fCallbackError) {
 	if (!Array.isArray(aItems)) {
 	    return fCallbackError(new Error('not an array'));
@@ -22,15 +22,41 @@ module.exports = function(router, connection) {
 		fCallbackError(err);
 		return;
 	    }
-	    // loop
+	    // the loop part
 	    insertItem(iIdOrder, aItems, iCurrentIndex + 1,  fCallbackSuccess, fCallbackError);
 	});
     }
     
-    
+    // to make loop and insert multiple destination
+    var insertDestination = function(iIdOrder, aDestination, iCurrentIndex, fCallbackSuccess, fCallbackError) {
+	if (!Array.isArray(aDestination)) {
+	    return fCallbackError(new Error('not an array'));
+	}
+	if (aDestination.length <= iCurrentIndex) {
+	    // there is no items anymore
+	    return fCallbackSuccess();
+	}
+
+	var oDestination = aDestination[iCurrentIndex];
+	var queryDestination = "INSERT INTO ?? (??, ??, ??, ??, ??, ??, ??, ??) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+	var tableDestination = ['photo_expresso_v1.order_destination', 'ID_ORDER', 'FIRSTNAME',
+				'LASTNAME', 'ADDR_L1', 'ADDR_L2', 'POSTAL_CODE', 'CITY', 'COMPLEMENT',
+				iIdOrder, oDestination.firstname, oDestination.lastname, oDestination.addr_l1,
+				oDestination.add_l2, oDestination.postal_code, oDestination.city, oDestination.complement];
+	
+	queryDestination = mysql.format(queryDestination, tableDestination);
+	connection.query(queryDestination, function(err, resultDestination){
+	    if (err) {
+		fCallbackError(err);
+		return;
+	    }
+	    insertDestination(iIdOrder, aDestination, iCurrentIndex + 1,  fCallbackSuccess, fCallbackError);
+	});
+    }
+        
     router.route('/orders/:id?')
-        .post(function(req, res){
-	    // to do 
+        .post(function(req, res) {
+	    
 	    var decodeMail = jwtDecode(req.headers.authorization).ID_USER;
 	    var queryMail = "SELECT * FROM ?? WHERE ?? = ? AND ?? = ?";
 	    var tableMail = ['photo_expresso_v1.view_users_detail', 'ID_USER', decodeMail, 'IS_ARCHIVED', '0'];
@@ -68,7 +94,8 @@ module.exports = function(router, connection) {
 			    return;
 			}
 			var promoUsingQuery = "INSERT INTO ?? (??, ??) VALUES (?, ?)";
-			var promoUsingTable = ['photo_expresso_v1.code_promo_using', 'ID_CODE_PROMO', 'ID_ORDER', req.body.code_promo, resultSelect[0].ID_ORDER];
+			var promoUsingTable = ['photo_expresso_v1.code_promo_using', 'ID_CODE_PROMO', 'ID_ORDER',
+					       req.body.code_promo, resultSelect[0].ID_ORDER];
 			
 			promoUsingQuery = mysql.format(promoUsingQuery, promoUsingTable);
 			connection.query(promoUsingQuery, function(err, resultPromo){
@@ -76,54 +103,37 @@ module.exports = function(router, connection) {
 				res.status(400).send(err);				    
 				return;
 			    }
-			    // multiple upload to handle
-			    insertItem(
-				resultSelect[0].ID_ORDER,
-				req.body.items,
-				0,
-				function() {
-				    // all items have been saved
-
-				    var queryDestination = "INSERT INTO ?? (??, ??, ??, ??, ??, ??, ??, ??) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-				    var tableDestination = ['photo_expresso_v1.order_destination', 'ID_ORDER', 'FIRSTNAME',
-							    'LASTNAME', 'ADDR_L1', 'ADDR_L2', 'POSTAL_CODE', 'CITY', 'COMPLEMENT',
-							    resultSelect[0].ID_ORDER, req.body.firstname, req.body.lastname, req.body.addr_l1,
-							    req.body.add_l2, req.body.postal_code, req.body.city, req.body.complement];
-
-				    queryDestination = mysql.format(queryDestination, tableDestination);
-				    connection.query(queryDestination, function(err, resultDestination){
-					if (err) {
-					    res.status(400).send(err);
-					    return;
-					}
-					res.status(201).send("Order created !");
-				    });
-				    
-				},
-				function(error) {
-				    res.status(400).send(err);
-				}
-			    );
+			    insertItem(resultSelect[0].ID_ORDER, req.body.items, 0, function() {
+				insertDestination(resultSelect[0].ID_ORDER, req.body.destinations, 0, function() {
+				    res.status(201).send("Order created !");
+				});
+			    }, function(error) {
+				res.status(400).send(err);				
+			    }
+				      );			    
 			});
-			
-		    });		    			
-		});		
-	    });	    
-	})
+		    }, function(error) {
+			res.status(400).send(err);
+		    }
+				    );
+		});
+	    });		    			
+	})		
+
+
     
-        .get(function(req, res){
-	    var iDUserDecode = jwtDecode(req.headers.authorization).ID_USER;
-	    var query = "SELECT * FROM ?? WHERE ?? = ?";
-	    var table = ['photo_expresso_v1.view_orders_detail', 'ID_USER', iDUserDecode ];
-	    
-	    query = mysql.format(query, table)
-	    connection.query(query, function(err, result){
-		if (err) {
-		    res.status(400).send(err);
-		}
-		else {
-		    res.send(result);
-		}
-	    });
-	})
+    .get(function(req, res){
+	var iDUserDecode = jwtDecode(req.headers.authorization).ID_USER;
+	var query = "SELECT * FROM ?? WHERE ?? = ?";
+	var table = ['photo_expresso_v1.view_orders_detail', 'ID_USER', iDUserDecode ];
+	
+	query = mysql.format(query, table)
+	connection.query(query, function(err, result){
+	    if (err) {
+		res.status(400).send(err);
+		return;
+	    }	    
+	    res.send(result);	    
+	});
+    });
 }
