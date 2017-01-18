@@ -8,10 +8,11 @@ module.exports = function(router, connection) {
 
 	    query = mysql.format(query, table);
 	    connection.query(query, function(err, result){
-		if (err)
+		if (err) {
 		    res.status(400);
-		else
-		    res.send(result);
+		    return;
+		}
+		res.send(result);
 	    });
 	});
 }
