@@ -12,10 +12,9 @@ module.exports = function(router, connection) {
 	    connection.query(query, function(err) {
 		if (err) {
 		    res.status(400).send(err);
+		    return;
 		}
-		else {
 		    res.status(201).send("Compte supprimé !");
-		}
 	    })
 	})
 };
