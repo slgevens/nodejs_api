@@ -13,10 +13,9 @@ module.exports = function(router, connection) {
 	    connection.query(querySupport, function(err, result){
 		if (err) {
 		    res.status(400).send(err);
+		    return;
 		}
-		else {
-		    res.status(201).send("Message sent !");
-		}
+		res.status(201).send("Message sent !");		
 	    });
 	})
     
@@ -29,10 +28,9 @@ module.exports = function(router, connection) {
 	    connection.query(queryGetSupport, function(err, result){
 		if (err) {
 		    res.status(400).send(err);
+		    return;
 		}
-		else {
-		    res.send(result);
-		}
+		res.send(result);	   
 	    });
 	})
 };
