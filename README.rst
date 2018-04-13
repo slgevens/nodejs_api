@@ -186,10 +186,10 @@ Sign up :
    "password":"evens",
    "firstname":"evens",
    "lastname":"solignac",
-   "addr_l1":"5 bis rue des glisiiers",
+   "addr_l1":"5 rue des huroit",
    "addr_l2":"rien",
    "complement":"no complement",
-   "postal_code":"95410",
+   "postal_code":"92810",
    "city":"groslay",
    "id_paper":"1",
    "id_masque":"1"
