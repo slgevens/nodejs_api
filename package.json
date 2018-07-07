@@ -1,22 +1,22 @@
 {
-  "name": "evens_api",
+  "name": "node-js_api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nmahefa/evens-API.git"
+    "url": "git+https://github.com/slgevens/node-js_api.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/nmahefa/evens-API/issues"
+    "url": "https://github.com/slgevens/node-js_api.git"
   },
-  "homepage": "https://github.com/nmahefa/evens-API#readme",
-  "dependencies": {
+    "homepage": "https://github.com/slgevens/node-js_api.git/README.rst",
+    "dependencies": {
     "body-parser": "^1.15.2",
     "cors": "^2.8.1",
     "crypto": "0.0.3",
