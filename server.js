@@ -8,22 +8,21 @@ var fs         = require('fs');
 
 // A enlever si jamais tu ne veux pas utiliser Oauth
 var jwt        = require('jsonwebtoken');
-// on lui donne le fichier d'environement à configurer
 require('dotenv').config({path: process.env.HOME + '/.env' });
 
 // https part
-var credentials = {
-    key: fs.readFileSync('../certs/privkey.pem', 'utf8'),
-    cert: fs.readFileSync('../certs/cert.pem', 'utf8'),
-    ca: fs.readFileSync('../certs/chain.pem', 'utf8'),
-
-    key: fs.readFileSync('../certs/photoexpresso.fr/privkey.pem', 'utf8'),
-    cert: fs.readFileSync('../certs/photoexpresso.fr/cert.pem', 'utf8'),
-    ca: fs.readFileSync('../certs/photoexpresso.fr/chain.pem', 'utf8'),
-
-    requestCert: true,
-    rejectUnauthorized: false
-};
+//var credentials = {
+//    key: fs.readFileSync('../certs/privkey.pem', 'utf8'),
+//    cert: fs.readFileSync('../certs/cert.pem', 'utf8'),
+//    ca: fs.readFileSync('../certs/chain.pem', 'utf8'),
+//
+//    key: fs.readFileSync('../certs/photoexpresso.fr/privkey.pem', 'utf8'),
+//    cert: fs.readFileSync('../certs/photoexpresso.fr/cert.pem', 'utf8'),
+//    ca: fs.readFileSync('../certs/photoexpresso.fr/chain.pem', 'utf8'),
+//
+//    requestCert: true,
+//    rejectUnauthorized: false
+//};
 // on ajoute express qui nous servira d'api
 var app = express();
 var connection;
@@ -117,7 +116,7 @@ require('./app/routes/deleteRoute')(router, connection);
 // On dit à Express que notre route s'apelle http://xx.xx/api/...
 app.use('/api', router);
 
-var httpsServer = https.createServer(credentials, app);
+//var httpsServer = https.createServer(credentials, app);
 // On lui dit d'écouter sur le port 3000
 app.listen(port);
-httpsServer.listen(3443);
+//httpsServer.listen(3443);

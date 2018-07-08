@@ -2,7 +2,7 @@
   "name": "node-js_api",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,8 +15,8 @@
   "bugs": {
     "url": "https://github.com/slgevens/node-js_api.git"
   },
-    "homepage": "https://github.com/slgevens/node-js_api.git/README.rst",
-    "dependencies": {
+  "homepage": "https://github.com/slgevens/node-js_api.git/README.rst",
+  "dependencies": {
     "body-parser": "^1.15.2",
     "cors": "^2.8.1",
     "crypto": "0.0.3",
@@ -25,6 +25,7 @@
     "fs": "0.0.1-security",
     "https": "^1.0.0",
     "jsonwebtoken": "^7.1.9",
+    "jwt-decode": "^2.2.0",
     "mysql": "^2.11.1",
     "native-password-hash": "^1.1.0",
     "nodemailer": "^2.7.0",
